@@ -43,8 +43,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Int
 private val processingPictures =
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
-            it.data?.let { uri ->
-
+            it.data?.data.let { uri ->
+            
             }
         }
     }
@@ -113,7 +113,7 @@ bitmap?.let {
 
 ## 从相机拍一张？
 
-将协议指定为 `TakePicturePreview` 即可，回调中我们可以直接拿到 bitmap ，`launch` 函数中也无需传递参数。
+将协议指定为 `TakePicture` 即可，`launch` 函数中传递保存图片地址的 uri ，请注意回调中我们只能拿到是否拍照成功的数据。
 
 当然还有些预置的协议能帮我们简洁的处理权限，获取文件，获取联系人等操作，这里就不多介绍啦，用法类似，可以直接看看协议的源码。
 
