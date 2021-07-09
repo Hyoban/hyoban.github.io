@@ -36,6 +36,10 @@ markdown_extensions:
   # 修改 toc 链接为具体标题
   - toc:
       slugify: !!python/name:pymdownx.slugs.uslugify
+  # 提供下划线，删除线的支持
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
 
 nav:
   - 主页: index.md
