@@ -1,0 +1,744 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://note.hyoban.fun/android/activity-result-contracts/">
+      
+      <link rel="icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.9">
+    
+    
+      
+        <title>使用 Intent 启动系统组件 - Hyoban 的笔记</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ca7ac06f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.f1a3b89f.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#使用-intent-启动系统组件" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Hyoban 的笔记" class="md-header__button md-logo" aria-label="Hyoban 的笔记" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hyoban 的笔记
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              使用 Intent 启动系统组件
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      主页
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        Android
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../jetpack-compose/choose-photo/" class="md-tabs__link">
+        Jetpack compose
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../retrofit/upload-file/" class="md-tabs__link">
+        Retrofit
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Hyoban 的笔记" class="md-nav__button md-logo" aria-label="Hyoban 的笔记" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Hyoban 的笔记
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        主页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Android
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Android" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Android
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          使用 Intent 启动系统组件
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        使用 Intent 启动系统组件
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#从前我们是怎么做的" class="md-nav__link">
+    从前我们是怎么做的
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#新的写法" class="md-nav__link">
+    新的写法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#从相机拍一张" class="md-nav__link">
+    从相机拍一张？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#参考" class="md-nav__link">
+    参考
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shared-data-storage/" class="md-nav__link">
+        共享存储空间
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        Jetpack compose
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Jetpack compose" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Jetpack compose
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jetpack-compose/choose-photo/" class="md-nav__link">
+        如何选择相册图片并展示
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Retrofit
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Retrofit" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Retrofit
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../retrofit/upload-file/" class="md-nav__link">
+        上传文件
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#从前我们是怎么做的" class="md-nav__link">
+    从前我们是怎么做的
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#新的写法" class="md-nav__link">
+    新的写法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#从相机拍一张" class="md-nav__link">
+    从相机拍一张？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#参考" class="md-nav__link">
+    参考
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="使用-intent-启动系统组件">使用 Intent 启动系统组件</h1>
+<p>安卓开发中，我们经常需要调用一些系统的组件，比如相机，选择文件等。下面我们以选择相册中的图片并展示这个例子来讲解。</p>
+<h2 id="从前我们是怎么做的">从前我们是怎么做的</h2>
+<p>基本步骤是</p>
+<ol>
+<li>定义一个获取从系统文件选择器中获取图片的 Intent</li>
+<li>使用 <code>startActivityForResult</code> 来启动 Activity</li>
+<li>在 <code>onActivityResult</code> 的回调中处理返回的 <code>uri</code> 数据</li>
+</ol>
+<p>当然我们需要将拿到的 <code>uri</code> 转成 bitmap 才能加载到 imageview 上</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="kd">val</span> <span class="nv">IMAGE_MIME_TYPE</span> <span class="o">=</span> <span class="s">&quot;image/*&quot;</span>
+<span class="kd">const</span> <span class="kd">val</span> <span class="nv">IMAGE_PICKER_REQUEST_CODE</span> <span class="o">=</span> <span class="m">1</span>
+
+<span class="kd">private</span> <span class="kd">fun</span> <span class="nf">selectImage</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">intent</span> <span class="o">=</span> <span class="n">Intent</span><span class="p">(</span><span class="n">Intent</span><span class="p">.</span><span class="na">ACTION_GET_CONTENT</span><span class="p">).</span><span class="na">apply</span> <span class="p">{</span>
+        <span class="n">type</span> <span class="o">=</span> <span class="n">IMAGE_MIME_TYPE</span>
+    <span class="p">}</span>
+
+    <span class="n">startActivityForResult</span><span class="p">(</span><span class="n">intent</span><span class="p">,</span> <span class="n">IMAGE_PICKER_REQUEST_CODE</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">override</span> <span class="kd">fun</span> <span class="nf">onActivityResult</span><span class="p">(</span><span class="n">requestCode</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">resultCode</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">resultData</span><span class="p">:</span> <span class="n">Intent?)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">.</span><span class="na">onActivityResult</span><span class="p">(</span><span class="n">requestCode</span><span class="p">,</span> <span class="n">resultCode</span><span class="p">,</span> <span class="n">resultData</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">requestCode</span> <span class="o">==</span> <span class="n">IMAGE_PICKER_REQUEST_CODE</span> <span class="o">&amp;&amp;</span> <span class="n">resultCode</span> <span class="o">==</span> <span class="n">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">resultData</span><span class="o">?.</span><span class="na">data</span><span class="o">?.</span><span class="na">let</span> <span class="p">{</span> <span class="n">uri</span> <span class="o">-&gt;</span>
+            <span class="n">activity</span><span class="o">?.</span><span class="na">let</span> <span class="p">{</span>
+                <span class="n">binding</span><span class="p">.</span><span class="na">preview</span><span class="p">.</span><span class="na">setImageBitmap</span><span class="p">(</span>
+                    <span class="n">BitmapFactory</span><span class="p">.</span><span class="na">decodeStream</span><span class="p">(</span><span class="nb">it</span><span class="p">.</span><span class="na">contentResolver</span><span class="p">.</span><span class="na">openInputStream</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span>
+                <span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>不过由于耦合严重和一大堆 <code>requestcode</code> ，现在 <code>startActivityForResult</code> 已经被废弃，我们需要使用 <code>registerForActivityResult</code>。</p>
+<h2 id="新的写法">新的写法</h2>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span> <span class="kd">val</span> <span class="nv">processingPictures</span> <span class="o">=</span>
+    <span class="n">registerForActivityResult</span><span class="p">(</span><span class="n">ActivityResultContracts</span><span class="p">.</span><span class="na">StartActivityForResult</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">it</span><span class="p">.</span><span class="na">resultCode</span> <span class="o">==</span> <span class="n">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">it</span><span class="p">.</span><span class="na">data</span><span class="o">?.</span><span class="na">data</span><span class="p">.</span><span class="na">let</span> <span class="p">{</span> <span class="n">uri</span> <span class="o">-&gt;</span>
+
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="kd">fun</span> <span class="nf">selectImage</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">intent</span> <span class="o">=</span> <span class="n">Intent</span><span class="p">(</span><span class="n">Intent</span><span class="p">.</span><span class="na">ACTION_GET_CONTENT</span><span class="p">).</span><span class="na">apply</span> <span class="p">{</span>
+        <span class="n">type</span> <span class="o">=</span> <span class="n">IMAGE_MIME_TYPE</span>
+    <span class="p">}</span>
+    <span class="n">processingPictures</span><span class="p">.</span><span class="na">launch</span><span class="p">(</span><span class="n">intent</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>我们创建一个启动器，指定启动需要的协议，然后使用 launch 函数启动即可。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">ActivityResultContract</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span> <span class="n">O</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>值得一提的是， <code>ActivityResultContract</code> 是一个抽象类，它的范型参数分别为，我们启动的时需要指定的参数和在回调中我们能够获取到的数据。我们需要实现自己的协议类，而这里采用了系统预置的通用的 <code>StartActivityForResult</code> ，整体写法和之前还是很类似的。</p>
+<p>很棒，我们不用定义 <code>requestcode</code> 了，也不用在混着各种内容的 <code>onActivityResult</code> 中进行操作了。但还可以更加简单一点。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span> <span class="kd">val</span> <span class="nv">processingPictures</span> <span class="o">=</span>
+    <span class="n">registerForActivityResult</span><span class="p">(</span><span class="n">ActivityResultContracts</span><span class="p">.</span><span class="na">GetContent</span><span class="p">())</span> <span class="p">{</span> <span class="n">uri</span> <span class="o">-&gt;</span>
+
+    <span class="p">}</span>
+
+<span class="kd">fun</span> <span class="nf">selectImage</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">processingPictures</span><span class="p">.</span><span class="na">launch</span><span class="p">(</span><span class="n">IMAGE_MIME_TYPE</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>从文件管理器中获取内容是系统提供给我们的预置协议，我们将 <code>Contract</code> 指定为 <code>GetContent</code></p>
+<div class="highlight"><pre><span></span><code><span class="n">public</span> <span class="n">static</span> <span class="kd">class</span> <span class="nc">GetContent</span> <span class="n">extends</span> <span class="n">ActivityResultContract</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="n">Uri</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>我们需要在 <code>launch</code> 函数中指定选择文件的类型，这里和之前一样指定为 <code>"image/*"</code> 即可，在回调中拿到 <code>uri</code> 。</p>
+<h2 id="从相机拍一张">从相机拍一张？</h2>
+<p>将协议指定为 <code>TakePicture</code> 即可，<code>launch</code> 函数中传递保存图片地址的 uri ，请注意回调中我们只能拿到是否拍照成功的数据，所以我们一般需要记录下传递的 uri 便于使用拍摄的照片。</p>
+<p>对于回调中的处理是这样的，我们可以拿到是否拍摄成功的信息，如果拍摄成功，之前记录下的 uri 就能加载出图片了。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">filename</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">${</span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">()</span><span class="si">}</span><span class="s">.jpg&quot;</span>
+
+<span class="kd">val</span> <span class="nv">imageUri</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Build</span><span class="p">.</span><span class="na">VERSION</span><span class="p">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="p">.</span><span class="na">VERSION_CODES</span><span class="p">.</span><span class="na">Q</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">MediaStore</span><span class="p">.</span><span class="na">Images</span><span class="p">.</span><span class="na">Media</span><span class="p">.</span><span class="na">getContentUri</span><span class="p">(</span>
+            <span class="n">MediaStore</span><span class="p">.</span><span class="na">VOLUME_EXTERNAL_PRIMARY</span>
+        <span class="p">)</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">MediaStore</span><span class="p">.</span><span class="na">Images</span><span class="p">.</span><span class="na">Media</span><span class="p">.</span><span class="na">EXTERNAL_CONTENT_URI</span>
+    <span class="p">}</span>
+
+<span class="kd">val</span> <span class="nv">imageDetails</span> <span class="o">=</span> <span class="n">ContentValues</span><span class="p">().</span><span class="na">apply</span> <span class="p">{</span>
+    <span class="n">put</span><span class="p">(</span><span class="n">MediaStore</span><span class="p">.</span><span class="na">Images</span><span class="p">.</span><span class="na">Media</span><span class="p">.</span><span class="na">DISPLAY_NAME</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">context</span><span class="p">.</span><span class="na">contentResolver</span><span class="p">.</span><span class="na">insert</span><span class="p">(</span><span class="n">imageUri</span><span class="p">,</span> <span class="n">imageDetails</span><span class="p">).</span><span class="na">let</span> <span class="p">{</span>
+    <span class="n">takenPictureUri</span> <span class="o">=</span> <span class="nb">it</span>
+    <span class="n">launcherFromCamera</span><span class="p">.</span><span class="na">launch</span><span class="p">(</span><span class="n">takenPictureUri</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>对于传递的 uri ，我们需要先自己构建出，这里我们指定出文件名并填充即可。</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://segmentfault.com/a/1190000037601888">再见！onActivityResult！你好，Activity Results API！</a></p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" title="Back to top" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="上一页: 主页" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              主页
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../shared-data-storage/" class="md-footer__link md-footer__link--next" aria-label="下一页: 共享存储空间" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              共享存储空间
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 Hyoban
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/hyoban" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.82b56eb2.min.js"></script>
+      
+    
+  </body>
+</html>
