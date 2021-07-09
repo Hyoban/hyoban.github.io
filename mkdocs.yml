@@ -43,5 +43,10 @@ markdown_extensions:
 
 nav:
   - 主页: index.md
+  - Android:
+    - android/activity-result-contracts.md
+    - android/shared-data-storage.md
   - Jetpack compose:
-    - 如何选择相册图片并展示 : jetpack-compose/how-to-choose-photo-from-album-and-display-it.md
+    - jetpack-compose/choose-photo.md
+  - Retrofit:
+    - retrofit/upload-file.md

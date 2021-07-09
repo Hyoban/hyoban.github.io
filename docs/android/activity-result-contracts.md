@@ -1,4 +1,6 @@
-# 如何选择相册图片并展示
+# 使用 Intent 启动系统组件
+
+安卓开发中，我们经常需要调用一些系统的组件，比如相机，选择文件等。下面我们以选择相册中的图片并展示这个例子来讲解。
 
 ## 从前我们是怎么做的
 
@@ -38,6 +40,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Int
 ```
 
 不过由于耦合严重和一大堆 `requestcode` ，现在 `startActivityForResult` 已经被废弃，我们需要使用 `registerForActivityResult`。
+
+## 新的写法
 
 ```kotlin
 private val processingPictures =
@@ -86,36 +90,35 @@ public static class GetContent extends ActivityResultContract<String, Uri>
 
 我们需要在 `launch` 函数中指定选择文件的类型，这里和之前一样指定为 `"image/*"` 即可，在回调中拿到 `uri` 。
 
-## 快进到正题
+## 从相机拍一张？
 
-但是现在我们使用的是 compose ，没办法和 activity 直接打交道。实际上在 compose 中提供了对应的函数 `rememberLauncherForActivityResult` ，写法上完全一致。
+将协议指定为 `TakePicture` 即可，`launch` 函数中传递保存图片地址的 uri ，请注意回调中我们只能拿到是否拍照成功的数据，所以我们一般需要记录下传递的 uri 便于使用拍摄的照片。
+
+对于回调中的处理是这样的，我们可以拿到是否拍摄成功的信息，如果拍摄成功，之前记录下的 uri 就能加载出图片了。
 
 ```kotlin
-val context = LocalContext.current
+val filename = "${System.currentTimeMillis()}.jpg"
 
-var bitmap by remember { mutableStateOf<Bitmap?>(null) }
-
-val launcherFromPhotos =
-    rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
-        bitmap = BitmapFactory.decodeStream(context.contentResolver.openInputStream(it))
+val imageUri =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        MediaStore.Images.Media.getContentUri(
+            MediaStore.VOLUME_EXTERNAL_PRIMARY
+        )
+    } else {
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     }
-```
 
-需要注意的是，我们需要在 compose 中使用 `LocalContext.current` 获取 context 。
+val imageDetails = ContentValues().apply {
+    put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+}
 
-然后我们将 bitmap 加载到 compose 中的 `Image` 组件即可，注意不要使用 `Icon` 这个组件。
-
-```kotlin
-bitmap?.let {
-    Image(bitmap = it.asImageBitmap(), contentDescription = "")
+context.contentResolver.insert(imageUri, imageDetails).let {
+    takenPictureUri = it
+    launcherFromCamera.launch(takenPictureUri)
 }
 ```
 
-## 从相机拍一张？
-
-将协议指定为 `TakePicture` 即可，`launch` 函数中传递保存图片地址的 uri ，请注意回调中我们只能拿到是否拍照成功的数据。
-
-当然还有些预置的协议能帮我们简洁的处理权限，获取文件，获取联系人等操作，这里就不多介绍啦，用法类似，可以直接看看协议的源码。
+对于传递的 uri ，我们需要先自己构建出，这里我们指定出文件名并填充即可。
 
 ## 参考
 
