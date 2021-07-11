@@ -1,0 +1,15 @@
+{{ define "main" }} 
+{{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }} 
+{{ range $pages.GroupByDate "2006" }}
+<div>
+  <h2>{{ .Key }}</h2>
+  <ul>
+    {{ range .Pages}}
+    <li>
+      {{ .Date.Format "Jan 2" }} <a href="{{ .Permalink }}">{{ .Title }}</a>
+    </li>
+    {{ end }} 
+  </ul>
+</div>
+{{ end }}
+{{ end }}

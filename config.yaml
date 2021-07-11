@@ -1,0 +1,30 @@
+baseURL: "https://hyoban.fun"
+title: Hyoban
+theme: cayman-hugo
+
+# Syntax highlighting
+pygmentsCodefences: true
+pygmentsStyle: pygments
+
+permalinks:
+  post: /:filename/
+
+params:
+  project_name: Hyoban 的博客
+  project_tagline: 凡事总须研究，才会明白。
+
+  footer: Made with [Hugo](https://gohugo.io/). Themed by [Cayman](https://github.com/zwbetz-gh/cayman-hugo-theme). Deployed to [Firebase](https://firebase.google.com/).
+  
+  cusdis_id: 4eab0f57-ebdc-4f97-9701-66535c7742fc
+
+menu:
+  nav:
+    - name: 笔记
+      url: https://github.com/hyoban/hyoban.github.io/issues
+      weight: 1
+    - name: 云盘
+      url: https://onedrive.hyoban.fun
+      weight: 2
+    - name: RSS
+      url: /index.xml
+      weight: 3

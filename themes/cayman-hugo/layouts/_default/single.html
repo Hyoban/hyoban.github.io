@@ -1,0 +1,22 @@
+{{ define "main" }}
+<main>
+    <article>
+    <header>
+        {{- if (.Param "showToc") | default true }}
+        <h2>目录</h2>
+        {{ .TableOfContents }}
+        {{- end }}
+    </header>
+        {{ .Content }}
+
+        {{- if (and ($.Site.Params.cusdis_id | default false) (.Param "showComment" | default true) (not .Site.IsServer)) }}
+        <h2>评论</h2>
+        <div id="cusdis_thread" data-host="https://cusdis.com"
+            data-app-id="{{ $.Site.Params.cusdis_id }}"
+            data-page-id="{{ .File.UniqueID }}" data-page-url="{{ .Permalink }}"
+            data-page-title="{{ .Title }}"></div>
+        <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+        {{- end }}
+    </article>
+</main>
+{{ end }}
