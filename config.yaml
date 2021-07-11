@@ -23,7 +23,7 @@ menu:
       url: https://github.com/hyoban/hyoban.github.io/issues
       weight: 1
     - name: 云盘
-      url: https://onedrive.hyoban.fun
+      url: https://raspy-band-5515.hyoban.workers.dev
       weight: 2
     - name: RSS
       url: /index.xml
